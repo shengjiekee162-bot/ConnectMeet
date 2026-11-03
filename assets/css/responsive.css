@@ -1,0 +1,113 @@
+/* ConnectMeet responsive layouts */
+
+@media (max-width: 960px) {
+  .hero {
+    grid-template-columns: 1fr;
+    min-height: auto;
+  }
+
+  .hero-visual {
+    min-height: 280px;
+    order: -1;
+  }
+
+  .hero-copy h1 {
+    max-width: none;
+  }
+
+  .lobby-card {
+    grid-template-columns: 1fr;
+  }
+
+  .video-grid[data-count="2"],
+  .video-grid[data-count="3"],
+  .video-grid[data-count="4"] {
+    grid-template-columns: 1fr;
+  }
+
+  .video-grid[data-count="5"],
+  .video-grid[data-count="6"],
+  .video-grid[data-count="7"],
+  .video-grid[data-count="8"] {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .video-tile {
+    min-height: 140px;
+    aspect-ratio: 16 / 11;
+  }
+}
+
+@media (max-width: 640px) {
+  .site-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .join-row {
+    grid-template-columns: 1fr;
+  }
+
+  .room-top {
+    flex-wrap: wrap;
+  }
+
+  .room-main {
+    padding-bottom: 7rem;
+  }
+
+  .local-cam-dock {
+    left: 0.65rem;
+    width: min(150px, 38vw);
+    bottom: calc(6.5rem + env(safe-area-inset-bottom, 0px));
+  }
+
+  .room-bottom {
+    gap: 0.4rem;
+    padding-bottom: calc(0.85rem + env(safe-area-inset-bottom, 0));
+  }
+
+  .btn-icon {
+    width: 46px;
+    height: 46px;
+  }
+
+  .btn-icon.leave {
+    width: 52px;
+    height: 52px;
+  }
+
+  .reactions-bar {
+    width: 100%;
+    justify-content: center;
+    order: 2;
+  }
+
+  .side-panel {
+    top: auto;
+    bottom: calc(5.75rem + env(safe-area-inset-bottom, 0px));
+    right: 0;
+    left: 0;
+    width: 100%;
+    height: min(50vh, 420px);
+    border-radius: 16px 16px 0 0;
+  }
+
+  .captions-panel {
+    bottom: 6.5rem;
+  }
+
+  .video-grid {
+    gap: 0.5rem;
+    padding: 0.5rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}

@@ -1,0 +1,43 @@
+# ConnectMeet Apache configuration
+
+Options -Indexes
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  # Pass custom auth headers through to PHP (some cPanel/CGI setups strip them)
+  RewriteCond %{HTTP:Authorization} .
+  RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+  RewriteCond %{HTTP:X-Participant-Token} .
+  RewriteRule .* - [E=HTTP_X_PARTICIPANT_TOKEN:%{HTTP:X-Participant-Token}]
+  RewriteCond %{HTTP:X-CSRF-Token} .
+  RewriteRule .* - [E=HTTP_X_CSRF_TOKEN:%{HTTP:X-CSRF-Token}]
+  RewriteCond %{HTTP:X-Host-Token} .
+  RewriteRule .* - [E=HTTP_X_HOST_TOKEN:%{HTTP:X-Host-Token}]
+
+  # Block direct web access to sensitive paths
+  RewriteRule ^config/ - [F,L]
+  RewriteRule ^includes/ - [F,L]
+  RewriteRule ^storage/ - [F,L]
+  RewriteRule ^database/ - [F,L]
+  RewriteRule ^scripts/ - [F,L]
+  RewriteRule ^tests/ - [F,L]
+</IfModule>
+
+<IfModule mod_headers.c>
+  Header set X-Content-Type-Options "nosniff"
+  Header set X-Frame-Options "SAMEORIGIN"
+  Header set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+# Limit request body size (signaling payloads)
+<IfModule mod_php.c>
+  php_value post_max_size 2M
+  php_value upload_max_filesize 1M
+</IfModule>
+
+# Deny access to hidden / example config files if rewrite unavailable
+<FilesMatch "^(config\.php|config\.example\.php|\.env)">
+  <IfModule mod_authz_core.c>
+    Require all denied
+  </IfModule>
+</FilesMatch>
